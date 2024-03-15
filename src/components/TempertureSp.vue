@@ -1,29 +1,25 @@
 <script setup>
-import { TempGetService } from '@/api/bmu';
-import * as echarts from 'echarts';
-import { useBmuStore } from '@/stores/modules/bmu';
-import { onMounted } from 'vue'
-
-const TempGet = async () => {
-  const bmuStore = useBmuStore();
-  const bmuid = bmuStore.bmu_id;
-  const res = await TempGetService(bmuid);
-  
-  return res.data.temperature;
-}
-
+import * as echarts from 'echarts'
+import { storeToRefs } from 'pinia'
+import { useBmuStore } from '@/stores/modules/bmu'
+import { onMounted, watch } from 'vue'
 const xAxisData = () => {
-  const TempArr = [];
+  const TempArr = []
   for (let i = 0; i < 50; i++) {
     TempArr[i] = i + 1
   }
-  return TempArr;
+  return TempArr
 }
-onMounted(async () => {
-  const TempertureSp = echarts.init(document.getElementById('TempertureSp'));
-  const data = await TempGet();
+
+const bmuStore = useBmuStore()
+const { BmuList } = storeToRefs(bmuStore)
+
+onMounted(() => {
+
+  const TempertureSp = echarts.init(document.getElementById('TempertureSp'))
   const options = {
     color: ['#00f2f1'],
+    animation: false,
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -40,7 +36,7 @@ onMounted(async () => {
           ' ' +
           '<strong>' +
           params[0].value +
-          ' ℃' +  
+          ' ℃' +
           '<strong/>'
         )
       }
@@ -60,7 +56,7 @@ onMounted(async () => {
       },
       axisLine: {
         show: false // 去除轴线
-      },
+      }
     },
     yAxis: {
       type: 'value',
@@ -73,26 +69,34 @@ onMounted(async () => {
         }
       },
       nameLocation: 'end',
-        nameTextStyle: {
-          fontStyle: 'italic',
-          color: 'white',
-          align: 'left'
-        },
+      nameTextStyle: {
+        fontStyle: 'italic',
+        color: 'white',
+        align: 'left'
+      }
     },
     series: [
       {
         name: '温度',
-        data: data,
         type: 'scatter',
-        symbolSize:6,
+        symbolSize: 6
       }
     ]
   }
-  TempertureSp.setOption(options);
+  TempertureSp.setOption(options)
   window.addEventListener('resize', function () {
     TempertureSp.resize()
   })
 })
+
+watch(BmuList.value, (newvalue) => {
+  const TempertureSp = echarts.init(document.getElementById('TempertureSp'))
+  const options = {
+    series: [{ data: newvalue }]
+  }
+  TempertureSp.setOption(options)
+},
+  { deep: true })
 </script>
 
 <template>

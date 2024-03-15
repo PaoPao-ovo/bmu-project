@@ -5,21 +5,27 @@ import { TempGetService } from '@/api/bmu'
 export const useBmuStore = defineStore('bmu-id', () => {
   const bmu_id = ref(8)
   const BmuTemperatureList = ref([])
+  const BmuList = ref([])
   const SetBmuTemperatureList = async () => {
-    const res = await TempGetService(bmu_id.value);
-    BmuTemperatureList.value = res.data.temperature;
-  }
-  const SetBmuid = (id) => {
-    bmu_id.value = id;
-  }
-  const GetBmuTemperatureList = () => {
-    return BmuTemperatureList.value;
+    const res = await TempGetService(bmu_id.value)
+    let index = 0
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 5; j++) {
+        BmuTemperatureList.value[index] = [i, j]
+        index++
+      }
+    }
+    for (let i = 0; i < BmuTemperatureList.value.length; i++) {
+      BmuTemperatureList.value[i][2] = res.data.temperature[i]
+    }
+    for (let i = 0; i < res.data.temperature.length; i++) {
+      BmuList.value[i] = res.data.temperature[i]
+    }
   }
   return {
     bmu_id,
     BmuTemperatureList,
-    SetBmuTemperatureList,
-    SetBmuid,
-    GetBmuTemperatureList
+    BmuList,
+    SetBmuTemperatureList
   }
 })

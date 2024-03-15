@@ -1,30 +1,15 @@
 <script setup>
-import * as echarts from 'echarts';
-import { useBmuStore } from '@/stores/modules/bmu';
-import { onMounted} from 'vue';
-const bmuStore = useBmuStore();
-const TempGet = () => {
-  const data = [];
-  console.log(bmuStore.BmuTemperatureList);
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 5; j++) {
-      data.push([i, j])
-    }
-  }
-  for (let i = 0; i < bmuStore.BmuTemperatureList.length; i++) {
-    data[i][2] = bmuStore.BmuTemperatureList[i]
-  }
-  return data;
-}
+import * as echarts from 'echarts'
+import { storeToRefs } from 'pinia'
+import { useBmuStore } from '@/stores/modules/bmu'
+import { onMounted, watch } from 'vue'
+const bmuStore = useBmuStore()
+const { BmuTemperatureList } = storeToRefs(bmuStore)
+const xAxisData = ['1', '6', '11', '16', '21', '26', '31', '36', '41', '46']
+const yAxisData = ['1', '2', '3', '4', '5']
 
-onMounted( () => {  
-  const xAxisData = ['1', '6', '11', '16', '21', '26', '31', '36', '41', '46']
-  const yAxisData = ['1', '2', '3', '4', '5']
-  const HeatMap = echarts.init(document.getElementById('HeatMap'));
-  const data = TempGet();
-  setInterval(()=>{
-    TempGet()
-  },1000)
+onMounted(() => {
+  const HeatMap = echarts.init(document.getElementById('HeatMap'))
   const options = {
     color: ['#00f2f1'],
     tooltip: {
@@ -46,19 +31,21 @@ onMounted( () => {
       left: '0%',
       top: '0%',
       right: '0%',
-      bottom: '4%',
-      containLabel: true
+      bottom: '0%',
+      containLabel: false
     },
     xAxis: {
+      show: false,
       type: 'category',
-      data: xAxisData,
+      data: xAxisData
     },
     yAxis: {
       type: 'category',
       data: yAxisData,
+      show: false
     },
     visualMap: {
-      show:false,
+      show: false,
       min: 5,
       max: 65,
       calculable: true,
@@ -83,7 +70,7 @@ onMounted( () => {
     },
     series: [
       {
-        data: data,
+        data: BmuTemperatureList.value,
         name: 'heatmap',
         type: 'heatmap',
         label: {
@@ -98,10 +85,19 @@ onMounted( () => {
       }
     ]
   }
-  HeatMap.setOption(options);
+  HeatMap.setOption(options)
   window.addEventListener('resize', function () {
     HeatMap.resize()
   })
+})
+
+watch(BmuTemperatureList.value, (newvalue) => {
+  const HeatMap = echarts.init(document.getElementById('HeatMap'))
+  const options = {
+    series: [{ data: newvalue }],
+    animation: false
+  }
+  HeatMap.setOption(options)
 })
 </script>
 

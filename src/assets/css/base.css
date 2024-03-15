@@ -1,7 +1,6 @@
-
 /* 整体调整 */
-*{
-  margin:0;
+* {
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
@@ -12,13 +11,11 @@ li {
 }
 
 /* 背景图 */
-body{
-  
-  line-height: 1.15;  
+body {
+  line-height: 1.15;
 }
 
 /* 去除Y轴滚动条 */
 body::-webkit-scrollbar {
   width: 0px;
 }
-

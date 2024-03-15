@@ -1,12 +1,12 @@
 <script setup>
-import TempertureSp from '@/components/TempertureSp.vue';
-import HeatMap from '@/components/HeatMap.vue';
-import { useBmuStore } from '@/stores/modules/bmu';
-const bmuStore = useBmuStore();
+import TempertureSp from '@/components/TempertureSp.vue'
+import HeatMap from '@/components/HeatMap.vue'
+import { useBmuStore } from '@/stores/modules/bmu'
+const bmuStore = useBmuStore()
 bmuStore.SetBmuTemperatureList()
 setInterval(() => {
   bmuStore.SetBmuTemperatureList()
-},1000)
+}, 1000)
 </script>
 <template>
   <!-- 页面头部 -->
@@ -19,10 +19,10 @@ setInterval(() => {
     <div class="column">
       <!-- 左侧数据展示组件 -->
       <div class="panel">
-        <TempertureSp/>
+        <TempertureSp />
       </div>
       <div class="panel">
-        <HeatMap/>
+        <HeatMap />
       </div>
       <div class="panel">
         <h2>温度数据展示</h2>

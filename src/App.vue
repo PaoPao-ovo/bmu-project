@@ -1,11 +1,9 @@
 <script setup>
-import LayoutMain from './view/Layout/LayoutMain.vue';
+import LayoutMain from './view/Layout/LayoutMain.vue'
 </script>
 
 <template>
-  <LayoutMain/>
+  <LayoutMain />
 </template>
 
-<style>
-
-</style>
+<style></style>

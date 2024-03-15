@@ -1,6 +1,6 @@
-@import './base.css'; 
+@import './base.css';
 
-#app{
+#app {
   background: url(../image/bg.jpg) no-repeat top center;
   width: 100%;
   height: 100%;
@@ -18,7 +18,6 @@ header h1 {
   text-align: center;
   line-height: 1rem;
 }
-
 
 /* 主体样式 */
 .mainbox {
@@ -55,7 +54,7 @@ header h1 {
   height: 10px;
   border-left: 2px solid #02a6b5;
   border-top: 2px solid #02a6b5;
-  content: "";
+  content: '';
 }
 .mainbox .panel::after {
   position: absolute;
@@ -65,7 +64,7 @@ header h1 {
   height: 10px;
   border-right: 2px solid #02a6b5;
   border-top: 2px solid #02a6b5;
-  content: "";
+  content: '';
 }
 .mainbox .panel .panel-footer {
   position: absolute;
@@ -81,7 +80,7 @@ header h1 {
   height: 10px;
   border-left: 2px solid #02a6b5;
   border-bottom: 2px solid #02a6b5;
-  content: "";
+  content: '';
 }
 .mainbox .panel .panel-footer::after {
   position: absolute;
@@ -91,7 +90,7 @@ header h1 {
   height: 10px;
   border-right: 2px solid #02a6b5;
   border-bottom: 2px solid #02a6b5;
-  content: "";
+  content: '';
 }
 .mainbox .panel h2 {
   height: 0.6rem;
@@ -118,7 +117,7 @@ header h1 {
   position: absolute;
   top: 0;
   left: 0;
-  content: "";
+  content: '';
   width: 30px;
   height: 10px;
   border-top: 2px solid #02a6b5;
@@ -128,7 +127,7 @@ header h1 {
   position: absolute;
   bottom: 0;
   right: 0;
-  content: "";
+  content: '';
   width: 30px;
   height: 10px;
   border-right: 2px solid #02a6b5;
@@ -144,10 +143,10 @@ header h1 {
   font-size: 0.4rem;
   color: #ffeb7b;
   text-align: center;
-  font-family: "electronicFont";
+  font-family: 'electronicFont';
 }
 .clockinfo .clockinfo-hd ul li::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 25%;
   right: 0;
