@@ -25,4 +25,3 @@ export const SelectDateFormate = (time) => {
   }
   return `${year}-${month}-${day}`
 }
-

@@ -4,11 +4,11 @@ import HeatMap from '@/components/HeatMap.vue'
 import TemperatureTable from '@/components/TemperatureTable.vue'
 import HistoryTemperature from '@/components/HistoryTemperature.vue'
 import { useBmuStore } from '@/stores/modules/bmu'
-import { onBeforeUnmount,ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 import { TodayDateFormate } from '@/utils/daytime'
 const bmuStore = useBmuStore()
 // 初始化数据
-const InitData = async()=>{
+const InitData = async () => {
   await bmuStore.SetBmuTemperatureList()
   await bmuStore.SetHistoryTemperatureTable(TodayDateFormate())
 }
@@ -20,13 +20,17 @@ const Timer = ref({
 InitData()
 
 // 定时更新数据
-setInterval(async() => {
+setInterval(async () => {
   await bmuStore.SetBmuTemperatureList()
 }, 1000)
 
-Timer.value.timerid = setInterval(async(time) => {
-  await bmuStore.SetHistoryTemperatureTable(time)
-}, 1000,Timer.value.daytime)
+Timer.value.timerid = setInterval(
+  async (time) => {
+    await bmuStore.SetHistoryTemperatureTable(time)
+  },
+  60000,
+  Timer.value.daytime
+)
 
 onBeforeUnmount(() => {
   clearInterval(Timer.value.timerid)
@@ -67,7 +71,7 @@ onBeforeUnmount(() => {
     </div>
     <div class="column">
       <div class="panel">
-          <HistoryTemperature v-model:timer="Timer"></HistoryTemperature>
+        <HistoryTemperature v-model:timer="Timer"></HistoryTemperature>
       </div>
       <div class="panel">
         <h2>历史电压</h2>

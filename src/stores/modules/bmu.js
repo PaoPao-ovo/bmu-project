@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { TempGetService ,GetHistoryTempService} from '@/api/bmu'
+import { TempGetService, GetHistoryTempService } from '@/api/bmu'
 
 // 设备ID模块
 export const useBmuStore = defineStore('bmu-id', () => {
@@ -32,8 +32,8 @@ export const useBmuStore = defineStore('bmu-id', () => {
   ])
   // 历史温度数据
   const HistoryTemperatureTable = ref({
-    temperature:[],
-    xAxis:[]
+    temperature: [],
+    xAxis: []
   })
   const SetBmuTemperatureList = async () => {
     const res = await TempGetService(bmu_id.value)
@@ -58,11 +58,11 @@ export const useBmuStore = defineStore('bmu-id', () => {
     TemperatureTable.value[2].value2 = res.data['range_of_temperature'] + ' °C'
   }
   const SetHistoryTemperatureTable = async (daytime) => {
-    const res = await GetHistoryTempService(bmu_id.value,daytime)
-    for(let i=0;i<res.data.temperature.length;i++){
+    const res = await GetHistoryTempService(bmu_id.value, daytime)
+    for (let i = 0; i < res.data.temperature.length; i++) {
       HistoryTemperatureTable.value.temperature[i] = res.data.temperature[i]
     }
-    for(let i=0;i<res.data.timedata.length;i++){
+    for (let i = 0; i < res.data.timedata.length; i++) {
       HistoryTemperatureTable.value.xAxis[i] = res.data.timedata[i]
     }
   }
