@@ -13,9 +13,10 @@ li {
 /* 背景图 */
 body {
   line-height: 1.15;
+  overflow: hidden;
 }
 
 /* 去除Y轴滚动条 */
-body::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 0px;
 }

@@ -15,7 +15,6 @@ const bmuStore = useBmuStore()
 const { BmuList } = storeToRefs(bmuStore)
 
 onMounted(() => {
-
   const TempertureSp = echarts.init(document.getElementById('TempertureSp'))
   const options = {
     color: ['#00f2f1'],
@@ -89,14 +88,17 @@ onMounted(() => {
   })
 })
 
-watch(BmuList.value, (newvalue) => {
-  const TempertureSp = echarts.init(document.getElementById('TempertureSp'))
-  const options = {
-    series: [{ data: newvalue }]
-  }
-  TempertureSp.setOption(options)
-},
-  { deep: true })
+watch(
+  BmuList.value,
+  (newvalue) => {
+    const TempertureSp = echarts.init(document.getElementById('TempertureSp'))
+    const options = {
+      series: [{ data: newvalue }]
+    }
+    TempertureSp.setOption(options)
+  },
+  { deep: true }
+)
 </script>
 
 <template>

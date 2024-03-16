@@ -1,12 +1,37 @@
 <script setup>
 import TempertureSp from '@/components/TempertureSp.vue'
 import HeatMap from '@/components/HeatMap.vue'
+import TemperatureTable from '@/components/TemperatureTable.vue'
+import HistoryTemperature from '@/components/HistoryTemperature.vue'
 import { useBmuStore } from '@/stores/modules/bmu'
+import { onBeforeUnmount,ref } from 'vue'
+import { TodayDateFormate } from '@/utils/daytime'
 const bmuStore = useBmuStore()
-bmuStore.SetBmuTemperatureList()
-setInterval(() => {
-  bmuStore.SetBmuTemperatureList()
+// 初始化数据
+const InitData = async()=>{
+  await bmuStore.SetBmuTemperatureList()
+  await bmuStore.SetHistoryTemperatureTable(TodayDateFormate())
+}
+
+const Timer = ref({
+  daytime: TodayDateFormate(),
+  timerid: null
+})
+InitData()
+
+// 定时更新数据
+setInterval(async() => {
+  await bmuStore.SetBmuTemperatureList()
 }, 1000)
+
+Timer.value.timerid = setInterval(async(time) => {
+  await bmuStore.SetHistoryTemperatureTable(time)
+}, 1000,Timer.value.daytime)
+
+onBeforeUnmount(() => {
+  clearInterval(Timer.value.timerid)
+  Timer.value.timerid = null
+})
 </script>
 <template>
   <!-- 页面头部 -->
@@ -25,9 +50,7 @@ setInterval(() => {
         <HeatMap />
       </div>
       <div class="panel">
-        <h2>温度数据展示</h2>
-        <div class="chart"></div>
-        <div class="panel-footer"></div>
+        <TemperatureTable />
       </div>
     </div>
     <!-- 中部地图和信息展示 -->
@@ -44,9 +67,7 @@ setInterval(() => {
     </div>
     <div class="column">
       <div class="panel">
-        <h2>昨日温度变化曲线</h2>
-        <div class="chart"></div>
-        <div class="panel-footer"></div>
+          <HistoryTemperature v-model:timer="Timer"></HistoryTemperature>
       </div>
       <div class="panel">
         <h2>历史电压</h2>
