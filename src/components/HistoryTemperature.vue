@@ -65,7 +65,6 @@ const SeriesTransfer = (data) => {
 }
 let Chart = null;
 watch(bmuStore.HistoryTemperatureTable.temperature, (newVal) => {
-  // const VoltagesCompareChart = echarts.init(document.getElementById('VoltagesCompare'))
   if (timerobj.value.daytime === TodayDateFormate()) {
     const seriesdata = SeriesTransfer(newVal)
     const option = {
@@ -97,7 +96,6 @@ const DisabledDate = (time) => {
 const UpdateChart = async (chosetime) => {
   const formattime = SelectDateFormate(chosetime)
   if (formattime !== TodayDateFormate()) {
-    // const VoltagesCompareChart = echarts.init(document.getElementById('VoltagesCompare'))
     timerobj.value.daytime = formattime
     clearInterval(timerobj.value.timerid)
     timerobj.value.timerid = null

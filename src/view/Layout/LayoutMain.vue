@@ -4,6 +4,7 @@ import HeatMap from '@/components/HeatMap.vue'
 import TemperatureTable from '@/components/TemperatureTable.vue'
 import HistoryTemperature from '@/components/HistoryTemperature.vue'
 import VoltagesCompare from '@/components/VoltagesCompare.vue'
+import WarnInfo from '@/components/WarnInfo.vue'
 import { useBmuStore } from '@/stores/modules/bmu'
 import { onBeforeUnmount, ref } from 'vue'
 import { TodayDateFormate } from '@/utils/daytime'
@@ -13,6 +14,7 @@ const InitData = async () => {
   await bmuStore.SetBmuTemperatureList()
   await bmuStore.SetHistoryTemperatureTable(TodayDateFormate())
   await bmuStore.SetBmuHistoryTemperatureList(TodayDateFormate())
+  await bmuStore.SetWarnList()
 }
 
 const Timer = ref({
@@ -37,7 +39,7 @@ Timer.value.timerid = setInterval(
   async (time) => {
     await bmuStore.SetHistoryTemperatureTable(time)
   },
-  1000,
+  60000,
   Timer.value.daytime
 )
 
@@ -49,6 +51,11 @@ VoltagesTimer.value.timerid = setInterval(
   60000,
   VoltagesTimer.value.daytime
 )
+
+// 报警数据定时更新
+setInterval(async () => {
+  await bmuStore.SetWarnList()
+}, 5000)
 
 onBeforeUnmount(() => {
   clearInterval(Timer.value.timerid)
@@ -96,7 +103,9 @@ onBeforeUnmount(() => {
       </div>
       <div class="panel">
         <h2>报警提示</h2>
-        <div class="chart"></div>
+        <div class="chart">
+          <WarnInfo/>
+        </div>
         <div class="panel-footer"></div>
       </div>
     </div>
