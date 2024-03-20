@@ -34,13 +34,7 @@ const options = {
     type: 'value',
     min: 10,
     max: 30
-  },
-  series: [
-    {
-      name: '电压',
-      type: 'line'
-    }
-  ]
+  }
 }
 let Chart = null
 
@@ -62,6 +56,8 @@ watch(bmuStore.HistoryVoltageTable.voltage, (newVal) => {
     const option = {
       series: [
         {
+          name: '电压',
+          type: 'line',
           data: newVal
         }
       ],
@@ -113,15 +109,8 @@ const UpdateChart = async (chosetime) => {
 
 <template>
   <div class="timeselect">
-    <el-date-picker
-      v-model="timerobj.daytime"
-      class="timeselect"
-      style="width: 1.5rem; height: 0.3rem"
-      type="date"
-      @change="UpdateChart"
-      :disabled-date="DisabledDate"
-      placeholder="选择日期"
-    />
+    <el-date-picker v-model="timerobj.daytime" class="timeselect" style="width: 1.5rem; height: 0.3rem" type="date"
+      @change="UpdateChart" :disabled-date="DisabledDate" placeholder="选择日期" />
   </div>
   <h2>电压变化曲线</h2>
   <div class="chart" id="VoltagesCompare"></div>

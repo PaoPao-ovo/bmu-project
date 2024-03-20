@@ -8,6 +8,7 @@ import WarnInfo from '@/components/BMU/WarnInfo.vue'
 import { useBmuStore } from '@/stores/modules/bmu'
 import { onBeforeUnmount, ref } from 'vue'
 import { TodayDateFormate } from '@/utils/daytime'
+import { VolGetService} from '@/api/bmu'
 const bmuStore = useBmuStore()
 // 初始化数据
 const InitData = async () => {
@@ -15,6 +16,10 @@ const InitData = async () => {
   await bmuStore.SetHistoryTemperatureTable(TodayDateFormate())
   await bmuStore.SetBmuHistoryTemperatureList(TodayDateFormate())
   await bmuStore.SetWarnList()
+
+  const voltageRes = await VolGetService(bmuStore.bmu_id)
+  BmuInfo.value.voltage = voltageRes.data.voltage/1000 + ' V'
+  BmuInfo.value.temperature = bmuStore.TemperatureTable[2].value1
 }
 
 const Timer = ref({
@@ -61,6 +66,18 @@ onBeforeUnmount(() => {
   clearInterval(Timer.value.timerid)
   Timer.value.timerid = null
 })
+
+const BmuInfo = ref({
+  voltage:null,
+  temperature:null
+})
+
+// BMU数据定时更新
+setInterval(async () => {
+  const voltageRes = await VolGetService(bmuStore.bmu_id)
+  BmuInfo.value.voltage = voltageRes.data.voltage/1000 + ' V'
+  BmuInfo.value.temperature = bmuStore.TemperatureTable[2].value1
+}, 5000)
 </script>
 <template>
   <!-- 页面头部 -->
@@ -87,8 +104,8 @@ onBeforeUnmount(() => {
       <div class="clockinfo">
         <div class="clockinfo-hd">
           <ul>
-            <li>电压：</li>
-            <li>平均温度：</li>
+            <li>电压：{{ BmuInfo.voltage }}</li>
+            <li>平均温度：{{ BmuInfo.temperature }}</li>
           </ul>
         </div>
       </div>
