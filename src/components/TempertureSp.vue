@@ -13,9 +13,10 @@ const xAxisData = () => {
 
 const bmuStore = useBmuStore()
 const { BmuList } = storeToRefs(bmuStore)
-
+let Chart = null;
 onMounted(() => {
   const TempertureSp = echarts.init(document.getElementById('TempertureSp'))
+  Chart = TempertureSp
   const options = {
     color: ['#00f2f1'],
     animation: false,
@@ -91,11 +92,10 @@ onMounted(() => {
 watch(
   BmuList.value,
   (newvalue) => {
-    const TempertureSp = echarts.init(document.getElementById('TempertureSp'))
     const options = {
       series: [{ data: newvalue }]
     }
-    TempertureSp.setOption(options)
+    Chart.setOption(options)
   },
   { deep: true }
 )

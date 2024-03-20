@@ -8,8 +8,11 @@ const { BmuTemperatureList } = storeToRefs(bmuStore)
 const xAxisData = ['1', '6', '11', '16', '21', '26', '31', '36', '41', '46']
 const yAxisData = ['1', '2', '3', '4', '5']
 
+let Chart = null
+
 onMounted(() => {
   const HeatMap = echarts.init(document.getElementById('HeatMap'))
+  Chart = HeatMap
   const options = {
     color: ['#00f2f1'],
     tooltip: {
@@ -92,12 +95,11 @@ onMounted(() => {
 })
 
 watch(BmuTemperatureList.value, (newvalue) => {
-  const HeatMap = echarts.init(document.getElementById('HeatMap'))
   const options = {
     series: [{ data: newvalue }],
     animation: false
   }
-  HeatMap.setOption(options)
+  Chart.setOption(options)
 })
 </script>
 

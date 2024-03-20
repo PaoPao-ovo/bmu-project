@@ -63,9 +63,9 @@ const SeriesTransfer = (data) => {
   }
   return series
 }
-
+let Chart = null;
 watch(bmuStore.HistoryTemperatureTable.temperature, (newVal) => {
-  const VoltagesCompareChart = echarts.init(document.getElementById('VoltagesCompare'))
+  // const VoltagesCompareChart = echarts.init(document.getElementById('VoltagesCompare'))
   if (timerobj.value.daytime === TodayDateFormate()) {
     const seriesdata = SeriesTransfer(newVal)
     const option = {
@@ -76,15 +76,17 @@ watch(bmuStore.HistoryTemperatureTable.temperature, (newVal) => {
         }
       ]
     }
-    VoltagesCompareChart.setOption(option)
+    Chart.setOption(option)
   }
 })
 
+
 onMounted(() => {
-  const VoltagesCompareChart = echarts.init(document.getElementById('VoltagesCompare'))
-  VoltagesCompareChart.setOption(options)
+  const TempCompareChart = echarts.init(document.getElementById('TempCompare'))
+  Chart = TempCompareChart
+  TempCompareChart.setOption(options)
   window.addEventListener('resize', function () {
-    VoltagesCompareChart.resize()
+    TempCompareChart.resize()
   })
 })
 
@@ -95,7 +97,7 @@ const DisabledDate = (time) => {
 const UpdateChart = async (chosetime) => {
   const formattime = SelectDateFormate(chosetime)
   if (formattime !== TodayDateFormate()) {
-    const VoltagesCompareChart = echarts.init(document.getElementById('VoltagesCompare'))
+    // const VoltagesCompareChart = echarts.init(document.getElementById('VoltagesCompare'))
     timerobj.value.daytime = formattime
     clearInterval(timerobj.value.timerid)
     timerobj.value.timerid = null
@@ -109,7 +111,7 @@ const UpdateChart = async (chosetime) => {
         }
       ]
     }
-    VoltagesCompareChart.setOption(option)
+    Chart.setOption(option)
   } else {
     if (timerobj.value.timerid === null) {
       timerobj.value.daytime = formattime
@@ -139,7 +141,7 @@ const UpdateChart = async (chosetime) => {
     />
   </div>
   <h2>温度变化曲线</h2>
-  <div class="chart" id="VoltagesCompare"></div>
+  <div class="chart" id="TempCompare"></div>
   <div class="panel-footer"></div>
 </template>
 
