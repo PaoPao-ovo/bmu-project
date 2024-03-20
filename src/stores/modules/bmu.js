@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { TempGetService, GetHistoryTempService, GetHistoryVolService,AlarmGetService } from '@/api/bmu'
+import {
+  TempGetService,
+  GetHistoryTempService,
+  GetHistoryVolService,
+  AlarmGetService
+} from '@/api/bmu'
 
 // 设备ID模块
 export const useBmuStore = defineStore('bmu-id', () => {
@@ -77,7 +82,7 @@ export const useBmuStore = defineStore('bmu-id', () => {
   const SetBmuHistoryTemperatureList = async (daytime) => {
     const res = await GetHistoryVolService(bmu_id.value, daytime)
     for (let i = 0; i < res.data.voltage.length; i++) {
-      HistoryVoltageTable.value.voltage[i] = res.data.voltage[i]/1000
+      HistoryVoltageTable.value.voltage[i] = res.data.voltage[i] / 1000
     }
     for (let i = 0; i < res.data.timedata.length; i++) {
       HistoryVoltageTable.value.timedata[i] = res.data.timedata[i]

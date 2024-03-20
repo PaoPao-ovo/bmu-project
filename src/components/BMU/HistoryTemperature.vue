@@ -63,7 +63,7 @@ const SeriesTransfer = (data) => {
   }
   return series
 }
-let Chart = null;
+let Chart = null
 watch(bmuStore.HistoryTemperatureTable.temperature, (newVal) => {
   if (timerobj.value.daytime === TodayDateFormate()) {
     const seriesdata = SeriesTransfer(newVal)
@@ -78,7 +78,6 @@ watch(bmuStore.HistoryTemperatureTable.temperature, (newVal) => {
     Chart.setOption(option)
   }
 })
-
 
 onMounted(() => {
   const TempCompareChart = echarts.init(document.getElementById('TempCompare'))

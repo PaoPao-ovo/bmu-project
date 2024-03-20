@@ -13,7 +13,7 @@ const xAxisData = () => {
 
 const bmuStore = useBmuStore()
 const { BmuList } = storeToRefs(bmuStore)
-let Chart = null;
+let Chart = null
 onMounted(() => {
   const TempertureSp = echarts.init(document.getElementById('TempertureSp'))
   Chart = TempertureSp

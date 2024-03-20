@@ -1,10 +1,10 @@
 <script setup>
-import TempertureSp from '@/components/TempertureSp.vue'
-import HeatMap from '@/components/HeatMap.vue'
-import TemperatureTable from '@/components/TemperatureTable.vue'
-import HistoryTemperature from '@/components/HistoryTemperature.vue'
-import VoltagesCompare from '@/components/VoltagesCompare.vue'
-import WarnInfo from '@/components/WarnInfo.vue'
+import TempertureSp from '@/components/BMU/TempertureSp.vue'
+import HeatMap from '@/components/BMU/HeatMap.vue'
+import TemperatureTable from '@/components/BMU/TemperatureTable.vue'
+import HistoryTemperature from '@/components/BMU/HistoryTemperature.vue'
+import VoltagesCompare from '@/components/BMU/VoltagesCompare.vue'
+import WarnInfo from '@/components/BMU/WarnInfo.vue'
 import { useBmuStore } from '@/stores/modules/bmu'
 import { onBeforeUnmount, ref } from 'vue'
 import { TodayDateFormate } from '@/utils/daytime'
@@ -104,7 +104,7 @@ onBeforeUnmount(() => {
       <div class="panel">
         <h2>报警提示</h2>
         <div class="chart">
-          <WarnInfo/>
+          <WarnInfo />
         </div>
         <div class="panel-footer"></div>
       </div>

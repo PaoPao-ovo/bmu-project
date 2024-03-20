@@ -15,7 +15,6 @@ const list = bmuStore.WarnList
   </vue3-seamless-scroll>
 </template>
 
-
 <style scoped>
 .scroll {
   height: 100%;

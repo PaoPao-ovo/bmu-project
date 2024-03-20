@@ -15,7 +15,7 @@ const options = {
       type: 'shadow'
     },
     confine: true,
-    enterable: true,
+    enterable: true
   },
   animation: false,
   grid: {
@@ -35,10 +35,12 @@ const options = {
     min: 10,
     max: 30
   },
-  series: [{
-    name: '电压',
-    type: 'line',
-  }]
+  series: [
+    {
+      name: '电压',
+      type: 'line'
+    }
+  ]
 }
 let Chart = null
 
@@ -58,13 +60,16 @@ onMounted(() => {
 watch(bmuStore.HistoryVoltageTable.voltage, (newVal) => {
   if (timerobj.value.daytime === TodayDateFormate()) {
     const option = {
-      series: [{
-        data: newVal
-      }
+      series: [
+        {
+          data: newVal
+        }
       ],
-      xAxis: [{
-        data: bmuStore.HistoryVoltageTable.timedata
-      }]
+      xAxis: [
+        {
+          data: bmuStore.HistoryVoltageTable.timedata
+        }
+      ]
     }
     Chart.setOption(option)
   }
@@ -78,9 +83,11 @@ const UpdateChart = async (chosetime) => {
     timerobj.value.timerid = null
     await bmuStore.SetBmuHistoryTemperatureList(timerobj.value.daytime)
     const option = {
-      series: [{
-        data:bmuStore.HistoryVoltageTable.voltage
-      }],
+      series: [
+        {
+          data: bmuStore.HistoryVoltageTable.voltage
+        }
+      ],
       xAxis: [
         {
           data: bmuStore.HistoryVoltageTable.timedata
@@ -105,7 +112,7 @@ const UpdateChart = async (chosetime) => {
 </script>
 
 <template>
-    <div class="timeselect">
+  <div class="timeselect">
     <el-date-picker
       v-model="timerobj.daytime"
       class="timeselect"
