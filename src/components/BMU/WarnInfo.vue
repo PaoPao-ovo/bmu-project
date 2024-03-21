@@ -2,12 +2,11 @@
 import { Vue3SeamlessScroll } from 'vue3-seamless-scroll'
 import { useBmuStore } from '@/stores/modules/bmu'
 const bmuStore = useBmuStore()
-const list = bmuStore.WarnList
 </script>
 
 <template>
-  <vue3-seamless-scroll :list="list" class="scroll" :step="0.2" :hover="true" :limitScrollNum="8">
-    <div class="item" v-for="(item, index) in list" :key="index">
+  <vue3-seamless-scroll :list="bmuStore.WarnList" class="scroll" :step="0.2" :hover="true" :limitScrollNum="8">
+    <div class="item" v-for="(item, index) in bmuStore.WarnList" :key="index">
       <span v-show="item.level != ''">{{ item.updatetime }}</span>
       <span v-show="item.level != ''">{{ item.level }}</span>
       <span v-show="item.level != ''">{{ item.content }}</span>

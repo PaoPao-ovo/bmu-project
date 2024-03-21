@@ -51,14 +51,15 @@ onMounted(() => {
   })
 })
 
-watch(bmuStore.HistoryVoltageTable.voltage, (newVal) => {
+watch(bmuStore.HistoryVoltageTable, (newVal) => {
   if (timerobj.value.daytime === TodayDateFormate()) {
-    const option = {
+    if(newVal.voltage.length>0){
+      const option = {
       series: [
         {
           name: '电压',
           type: 'line',
-          data: newVal
+          data: newVal.voltage
         }
       ],
       xAxis: [
@@ -68,7 +69,27 @@ watch(bmuStore.HistoryVoltageTable.voltage, (newVal) => {
       ]
     }
     Chart.setOption(option)
+    }
+    else{
+      const option = {
+      series: [
+        {
+          name: '电压',
+          type: 'line',
+          data: newVal.voltage
+        }
+      ],
+      xAxis: [
+        {
+          data: []
+        }
+      ]
+    }
+    Chart.setOption(option)
+    }
   }
+},{
+  deep: true
 })
 
 const UpdateChart = async (chosetime) => {

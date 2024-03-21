@@ -71,26 +71,39 @@ export const useBmuStore = defineStore('bmu-id', () => {
   }
   const SetHistoryTemperatureTable = async (daytime) => {
     const res = await GetHistoryTempService(bmu_id.value, daytime)
-    for (let i = 0; i < res.data.temperature.length; i++) {
-      HistoryTemperatureTable.value.temperature[i] = res.data.temperature[i]
-    }
-    for (let i = 0; i < res.data.timedata.length; i++) {
-      HistoryTemperatureTable.value.xAxis[i] = res.data.timedata[i]
+    if (res.data.timedata === null) {
+      HistoryTemperatureTable.value.xAxis = []
+      HistoryTemperatureTable.value.temperature = []
+    } else {
+      for (let i = 0; i < res.data.temperature.length; i++) {
+        HistoryTemperatureTable.value.temperature[i] = res.data.temperature[i]
+      }
+      for (let i = 0; i < res.data.timedata.length; i++) {
+        HistoryTemperatureTable.value.xAxis[i] = res.data.timedata[i]
+      }
     }
   }
   // 设置历史电压数据
   const SetBmuHistoryTemperatureList = async (daytime) => {
     const res = await GetHistoryVolService(bmu_id.value, daytime)
-    for (let i = 0; i < res.data.voltage.length; i++) {
-      HistoryVoltageTable.value.voltage[i] = res.data.voltage[i] / 1000
+    if (res.data.voltage === null) {
+      HistoryVoltageTable.value.voltage = []
     }
-    for (let i = 0; i < res.data.timedata.length; i++) {
-      HistoryVoltageTable.value.timedata[i] = res.data.timedata[i]
+    else {
+      for (let i = 0; i < res.data.voltage.length; i++) {
+        HistoryVoltageTable.value.voltage[i] = res.data.voltage[i] / 1000
+      }
+      for (let i = 0; i < res.data.timedata.length; i++) {
+        HistoryVoltageTable.value.timedata[i] = res.data.timedata[i]
+      }
     }
   }
   // 设置报警信息数据
   const SetWarnList = async () => {
     const res = await AlarmGetService(bmu_id.value)
+    if (res.data.msg === "fault") {
+      WarnList.value = []
+    }
     for (let i = 0; i < res.data.alarm.length; i++) {
       WarnList.value[i] = res.data.alarm[i]
     }
