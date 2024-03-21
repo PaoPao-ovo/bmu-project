@@ -32,8 +32,8 @@ const options = {
   ],
   yAxis: {
     type: 'value',
-    min: 10,
-    max: 30
+    min: 9,
+    max: 16
   }
 }
 let Chart = null
