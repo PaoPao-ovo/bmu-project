@@ -6,7 +6,7 @@ import HistoryTemperature from '@/components/BMU/HistoryTemperature.vue'
 import VoltagesCompare from '@/components/BMU/VoltagesCompare.vue'
 import WarnInfo from '@/components/BMU/WarnInfo.vue'
 import { useBmuStore } from '@/stores/modules/bmu'
-import { onBeforeUnmount, ref, computed ,watch} from 'vue'
+import { onBeforeUnmount, ref, computed, watch } from 'vue'
 import { TodayDateFormate } from '@/utils/daytime'
 import { VolGetService } from '@/api/bmu'
 
@@ -15,21 +15,20 @@ const ClusterValue = ref('')
 const ClusterOptions = [
   {
     value: '1',
-    label: '1号电池簇',
+    label: '1号电池簇'
   },
   {
     value: '2',
-    label: '2号电池簇',
-
+    label: '2号电池簇'
   },
   {
     value: '3',
-    label: '3号电池簇',
+    label: '3号电池簇'
   },
   {
     value: '4',
-    label: '4号电池簇',
-  },
+    label: '4号电池簇'
+  }
 ]
 
 const CellOptions = []
@@ -37,7 +36,7 @@ const CellOptions = []
 for (let i = 0; i < 50; i++) {
   CellOptions.push({
     value: `${i + 1}`,
-    label: `${i + 1}号电池`,
+    label: `${i + 1}号电池`
   })
 }
 
@@ -155,7 +154,6 @@ const BmuInfo = ref({
   temperature: null
 })
 
-
 // BMU数据定时更新
 setInterval(async () => {
   const voltageRes = await VolGetService(bmuStore.bmu_id)
@@ -169,7 +167,7 @@ const IdTable = ref({
 })
 
 const TempId = computed(() => {
-  return +(IdTable.value.ClusterId-1) * 50 + (+IdTable.value.CellId)
+  return +(IdTable.value.ClusterId - 1) * 50 + +IdTable.value.CellId
 })
 const ClusteridChange = (ClusterVal) => {
   IdTable.value.ClusterId = ClusterVal
@@ -180,9 +178,9 @@ const CellidChange = (CellVal) => {
 }
 
 // 当ID变化后，刷新数据
-watch(TempId, async(newVal) => {
+watch(TempId, async (newVal) => {
   bmuStore.bmu_id = newVal
-  await bmuStore.SetBmuHistoryTemperatureList(TodayDateFormate());
+  await bmuStore.SetBmuHistoryTemperatureList(TodayDateFormate())
   await bmuStore.SetWarnList()
   await bmuStore.SetHistoryTemperatureTable(TodayDateFormate())
 })
@@ -191,12 +189,26 @@ watch(TempId, async(newVal) => {
 <template>
   <!-- 页面头部 -->
   <header>
-    <div class="header-select"> <el-select v-model="ClusterValue" placeholder="选择电池簇" @change="ClusteridChange">
-        <el-option v-for="item in ClusterOptions" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select></div>
-    <div class="body-select"> <el-select v-model="CellValue" placeholder="选择电池" @change="CellidChange">
-        <el-option v-for="item in CellOptions" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select></div>
+    <div class="header-select">
+      <el-select v-model="ClusterValue" placeholder="选择电池簇" @change="ClusteridChange">
+        <el-option
+          v-for="item in ClusterOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>
+    </div>
+    <div class="body-select">
+      <el-select v-model="CellValue" placeholder="选择电池" @change="CellidChange">
+        <el-option
+          v-for="item in CellOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>
+    </div>
     <h1>{{ TempId }}号电池数据展示大屏</h1>
   </header>
   <!-- 页面主体 -->

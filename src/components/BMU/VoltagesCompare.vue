@@ -51,46 +51,49 @@ onMounted(() => {
   })
 })
 
-watch(bmuStore.HistoryVoltageTable, (newVal) => {
-  if (timerobj.value.daytime === TodayDateFormate()) {
-    if(newVal.voltage.length>0){
-      const option = {
-      series: [
-        {
-          name: '电压',
-          type: 'line',
-          data: newVal.voltage
+watch(
+  bmuStore.HistoryVoltageTable,
+  (newVal) => {
+    if (timerobj.value.daytime === TodayDateFormate()) {
+      if (newVal.voltage.length > 0) {
+        const option = {
+          series: [
+            {
+              name: '电压',
+              type: 'line',
+              data: newVal.voltage
+            }
+          ],
+          xAxis: [
+            {
+              data: bmuStore.HistoryVoltageTable.timedata
+            }
+          ]
         }
-      ],
-      xAxis: [
-        {
-          data: bmuStore.HistoryVoltageTable.timedata
+        Chart.setOption(option)
+      } else {
+        const option = {
+          series: [
+            {
+              name: '电压',
+              type: 'line',
+              data: newVal.voltage
+            }
+          ],
+          xAxis: [
+            {
+              data: []
+            }
+          ]
         }
-      ]
+        Chart.setOption(option)
+      }
     }
-    Chart.setOption(option)
-    }
-    else{
-      const option = {
-      series: [
-        {
-          name: '电压',
-          type: 'line',
-          data: newVal.voltage
-        }
-      ],
-      xAxis: [
-        {
-          data: []
-        }
-      ]
-    }
-    Chart.setOption(option)
-    }
+  },
+  {
+    deep: true
   }
-},{
-  deep: true
-})
+)
 
 const UpdateChart = async (chosetime) => {
   const formattime = SelectDateFormate(chosetime)
@@ -130,8 +133,15 @@ const UpdateChart = async (chosetime) => {
 
 <template>
   <div class="timeselect">
-    <el-date-picker v-model="timerobj.daytime" class="timeselect" style="width: 1.5rem; height: 0.3rem" type="date"
-      @change="UpdateChart" :disabled-date="DisabledDate" placeholder="选择日期" />
+    <el-date-picker
+      v-model="timerobj.daytime"
+      class="timeselect"
+      style="width: 1.5rem; height: 0.3rem"
+      type="date"
+      @change="UpdateChart"
+      :disabled-date="DisabledDate"
+      placeholder="选择日期"
+    />
   </div>
   <h2>电压变化曲线</h2>
   <div class="chart" id="VoltagesCompare"></div>

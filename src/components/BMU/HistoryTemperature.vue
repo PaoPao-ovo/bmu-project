@@ -62,9 +62,7 @@ const SeriesTransfer = (data) => {
         data: data[i]
       })
     }
-
-  }
-  else {
+  } else {
     for (let i = 0; i < 50; i++) {
       series.push({
         name: `温度${i + 1}`,
@@ -77,36 +75,38 @@ const SeriesTransfer = (data) => {
 }
 
 let Chart = null
-watch(bmuStore.HistoryTemperatureTable, (newVal) => {
-  if (timerobj.value.daytime === TodayDateFormate()) {
-    const seriesdata = SeriesTransfer(newVal.temperature)
-    if (seriesdata.length === 0) {
-      const option = {
-        series:seriesdata,
-        xAxis: [
-          {
-            data: []
-          }
-        ]
+watch(
+  bmuStore.HistoryTemperatureTable,
+  (newVal) => {
+    if (timerobj.value.daytime === TodayDateFormate()) {
+      const seriesdata = SeriesTransfer(newVal.temperature)
+      if (seriesdata.length === 0) {
+        const option = {
+          series: seriesdata,
+          xAxis: [
+            {
+              data: []
+            }
+          ]
+        }
+        Chart.setOption(option)
+      } else {
+        const option = {
+          series: seriesdata,
+          xAxis: [
+            {
+              data: bmuStore.HistoryTemperatureTable.xAxis
+            }
+          ]
+        }
+        Chart.setOption(option)
       }
-      Chart.setOption(option)
     }
-    else {
-      const option = {
-        series: seriesdata,
-        xAxis: [
-          {
-            data: bmuStore.HistoryTemperatureTable.xAxis
-          }
-        ]
-      }
-      Chart.setOption(option)
-    }
-  }
-},
+  },
   {
     deep: true
-  })
+  }
+)
 
 onMounted(() => {
   const TempCompareChart = echarts.init(document.getElementById('TempCompare'))
@@ -156,8 +156,15 @@ const UpdateChart = async (chosetime) => {
 
 <template>
   <div class="timeselect">
-    <el-date-picker v-model="timerobj.daytime" class="timeselect" style="width: 1.5rem; height: 0.3rem" type="date"
-      @change="UpdateChart" :disabled-date="DisabledDate" placeholder="选择日期" />
+    <el-date-picker
+      v-model="timerobj.daytime"
+      class="timeselect"
+      style="width: 1.5rem; height: 0.3rem"
+      type="date"
+      @change="UpdateChart"
+      :disabled-date="DisabledDate"
+      placeholder="选择日期"
+    />
   </div>
   <h2>温度变化曲线</h2>
   <div class="chart" id="TempCompare"></div>

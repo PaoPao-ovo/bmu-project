@@ -88,8 +88,7 @@ export const useBmuStore = defineStore('bmu-id', () => {
     const res = await GetHistoryVolService(bmu_id.value, daytime)
     if (res.data.voltage === null) {
       HistoryVoltageTable.value.voltage = []
-    }
-    else {
+    } else {
       for (let i = 0; i < res.data.voltage.length; i++) {
         HistoryVoltageTable.value.voltage[i] = res.data.voltage[i] / 1000
       }
@@ -101,7 +100,7 @@ export const useBmuStore = defineStore('bmu-id', () => {
   // 设置报警信息数据
   const SetWarnList = async () => {
     const res = await AlarmGetService(bmu_id.value)
-    if (res.data.msg === "fault") {
+    if (res.data.msg === 'fault') {
       WarnList.value = []
     }
     for (let i = 0; i < res.data.alarm.length; i++) {

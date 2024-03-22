@@ -5,7 +5,13 @@ const bmuStore = useBmuStore()
 </script>
 
 <template>
-  <vue3-seamless-scroll :list="bmuStore.WarnList" class="scroll" :step="0.2" :hover="true" :limitScrollNum="8">
+  <vue3-seamless-scroll
+    :list="bmuStore.WarnList"
+    class="scroll"
+    :step="0.2"
+    :hover="true"
+    :limitScrollNum="8"
+  >
     <div class="item" v-for="(item, index) in bmuStore.WarnList" :key="index">
       <span v-show="item.level != ''">{{ item.updatetime }}</span>
       <span v-show="item.level != ''">{{ item.level }}</span>
