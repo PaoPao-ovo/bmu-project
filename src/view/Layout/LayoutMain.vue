@@ -188,7 +188,8 @@ watch(TempId, async (newVal) => {
 
 <template>
   <!-- 页面头部 -->
-  <header>
+  <div id="mainlayout">
+    <header>
     <div class="header-select">
       <el-select v-model="ClusterValue" placeholder="选择电池簇" @change="ClusteridChange">
         <el-option
@@ -254,6 +255,8 @@ watch(TempId, async (newVal) => {
       </div>
     </div>
   </section>
+  </div>
+
 </template>
 
 <style scoped>

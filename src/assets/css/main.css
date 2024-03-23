@@ -1,6 +1,6 @@
 @import './base.css';
 
-#app {
+#mainlayout {
   background: url(../image/bg.jpg) no-repeat top center;
   width: 100%;
   height: 100%;
